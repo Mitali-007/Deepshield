@@ -1,0 +1,7 @@
+tensorflow 2.15
+keras 2.15
+streamlit latestopencv-python
+pillow
+plotly
+mtcnn
+numpy
