@@ -394,40 +394,40 @@ elif "Video" in mode:
     uploaded_video = st.file_uploader("Upload a video", type=["mp4","avi","mov"])
 
     if uploaded_video:
-    	col1, col2 = st.columns([1, 1.4], gap="large")
+        col1, col2 = st.columns([1, 1.4], gap="large")
 
-    with col1:
-        st.markdown(
-            '<p style="color:#6b7280;font-size:0.7rem;letter-spacing:3px;">INPUT VIDEO</p>',
-            unsafe_allow_html=True
-        )
-        st.video(uploaded_video)
-
-    with col2:
-        # Save uploaded video temporarily
-        tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
-        tfile.write(uploaded_video.read())
-        tfile.close()
-
-        # Analyze video
-        result = predict_video(model, tfile.name, n=n_frames)
-
-        # Remove temp file safely
-        try:
-            os.remove(tfile.name)
-        except:
-            pass
-
-        # Display result
-        if not result:
-            st.error("No faces detected in video.")
-
-        else:
-            css = "result-real" if result["label"] == "REAL" else "result-fake"
-            emoji = "✓ AUTHENTIC" if result["label"] == "REAL" else "⚠ MANIPULATED"
-
+        with col1:
             st.markdown(
-                f'<div class="{css}">{emoji}</div>',
+                '<p style="color:#6b7280;font-size:0.7rem;letter-spacing:3px;">INPUT VIDEO</p>',
+                unsafe_allow_html=True
+            )
+            st.video(uploaded_video)
+
+        with col2:
+            # Save uploaded video temporarily
+            tfile = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+            tfile.write(uploaded_video.read())
+            tfile.close()
+
+            # Analyze video
+            result = predict_video(model, tfile.name, n=n_frames)
+
+            # Remove temp file safely
+            try:
+                os.remove(tfile.name)
+            except:
+                pass
+
+            # Display result
+            if not result:
+                st.error("No faces detected in video.")
+
+            else:
+                css = "result-real" if result["label"] == "REAL" else "result-fake"
+                emoji = "✓ AUTHENTIC" if result["label"] == "REAL" else "⚠ MANIPULATED"
+
+                st.markdown(
+                    f'<div class="{css}">{emoji}</div>',
                 unsafe_allow_html=True
             )
 
